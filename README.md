@@ -180,7 +180,43 @@ Contoh :
 [Client][2025-05-03 04:34:45]: [DOWNLOAD] [20250503_043410.jpeg]
 [Server][2025-05-03 04:34:45]: [UPLOAD] [20250503_043410.jpeg]
 ```
-# Soal 3
+
+# Soal_2\
+
+# Deskripsi Program:
+Program ini merupakan sistem simulasi pengiriman barang yang terdiri dari dua jenis layanan yaitu Express dan Reguler. Program menggunakan multithreading untuk memproses pengiriman Express secara otomatis melalui 3 agen ekspedisi (AGENT A, AGENT B, dan AGENT C) yang berjalan secara paralel. Untuk pengiriman Reguler, pengguna dapat mengirim paket secara manual melalui parameter command line.
+
+Seluruh proses pengiriman akan dicatat ke dalam file log bernama ```delivery.log``` beserta informasi waktu, agen pengirim, jenis layanan, nama penerima, dan alamat tujuan.
+
+# Struktur Data
+``` typedef struct {
+    char name[50];
+    char address[50];
+    char type[10];    // "Express" or "Reguler"
+    char status[50];  // "Pending" / "AGENT A" / argv[0] dll
+} Order;
+ ```
+
+# Format Log
+``` [dd/mm/yyyy hh:mm:ss] [AGENT] [TYPE] package delivered to [NAME] in [ADDRESS] ```
+
+# Cara Menjalankan Program:
+Menjalankan Express Delivery (Multithreading):
+```./dispatcher```
+Melakukan Reguler Delivery:
+```./dispatcher -deliver [Name]```
+Cek Status Paket:
+```./dispatcher -status [Name]```
+Menampilkan Daftar Semua Order:
+```./dispatcher -list```
+
+# Kesimpulan:
+Program Delivery Management System berhasil menerapkan konsep multithreading untuk memproses pengiriman secara paralel dan pengiriman manual berbasis command line. Fitur logging memastikan seluruh aktivitas tercatat dengan detail waktu, agen, jenis pengiriman, nama, dan alamat.
+
+Program ini mampu mendemonstrasikan kontrol sinkronisasi dengan mutex lock untuk menghindari race condition saat memodifikasi data status pengiriman di array struct secara bersama-sama oleh banyak thread.
+
+
+# Soal_3
 
 # 🥅 Blue Lock: Goal Attack
 
@@ -294,5 +330,69 @@ read(sock, buffer, sizeof(buffer));
 ![image](https://github.com/user-attachments/assets/badc361a-2833-4e58-bae0-24f0f54f65b2)
 ## Battle
 ![image](https://github.com/user-attachments/assets/e0ce79bc-743f-450e-9d33-ebb562e96d33)
+
+# Soal_4
+
+# Program ini terdiri dari dua bagian:
+
+1. # Program Hunter
+    Sistem registrasi, login, dan tampilan profil hunter menggunakan shared memory untuk menyimpan data hunter.
+2. # Program Dungeon System
+   Sistem pembuatan dungeon secara acak dan penyimpanan daftar dungeon.
+   Kedua program ini digunakan dalam simulasi game berbasis CLI (Command Line Interface) dengan konsep manajemen user (hunter) dan dungeon.
+
+# Struktur Data
+```Struct Hunter
+typedef struct {
+    char username[50];
+    int level;
+    int exp;
+    int atk;
+    int hp;
+    int def;
+    int banned;
+} Hunter;
+```
+# Struct SystemData
+
+```typedef struct {
+    int num_hunters;
+    Hunter hunters[MAX_HUNTERS];
+} SystemData;
+```
+
+# Struct Dungeon
+
+```struct Dungeon {
+    char name[50];
+    int min_level;
+    int atk;
+    int hp;
+    int def;
+    int exp;
+    int key;
+};
+```
+
+ # Mekanisme Shared Memory
+Key shared memory diambil menggunakan:
+
+```key_t key = get_system_key();
+Kemudian diakses menggunakan:
+```
+
+```int shmid = shmget(key, sizeof(SystemData), 0666);
+SystemData *sys_data = (SystemData *) shmat(shmid, NULL, 0);
+Data hunter disimpan di dalam sys_data.
+```
+#  Mekanisme Random Dungeon
+Dungeon dihasilkan menggunakan rand():
+```
+int random_index = rand() % 10;
+dungeon->atk = rand() % 51 + 100;
+dungeon->hp = rand() % 51 + 50;
+Nama dungeon diambil dari array string dungeon_names.
+```
+
 
 
