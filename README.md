@@ -180,3 +180,119 @@ Contoh :
 [Client][2025-05-03 04:34:45]: [DOWNLOAD] [20250503_043410.jpeg]
 [Server][2025-05-03 04:34:45]: [UPLOAD] [20250503_043410.jpeg]
 ```
+# Soal 3
+
+# 🥅 Blue Lock: Goal Attack
+
+> Sistem client-server sederhana berbasis C untuk simulasi pertarungan menggunakan konsep battle arena dan senjata dengan efek pasif.
+
+## 📂 Struktur File
+
+| File        | Deskripsi                                                                                                                    |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `dungeon.c` | File server. Menangani koneksi client, penyimpanan data player, dan logika utama seperti battle, shop, dan inventory.        |
+| `player.c`  | File client. Menyediakan antarmuka interaktif untuk player, mengirim perintah ke server, dan menampilkan respon.             |
+| `shop.h`    | Header file. Mendefinisikan struct `Weapon`, variabel `weapon_list`, dan fungsi `init_weapons()` untuk inisialisasi senjata. |
+
+---
+
+## 🧩 Penjelasan Bagian Kode
+
+### `shop.h`
+
+```c
+typedef struct {
+    char name[64];
+    int price;
+    int damage;
+    char passive[64];
+    int passive_chance;
+} Weapon;
+```
+
+* **Struct Weapon**: merepresentasikan senjata dalam game, lengkap dengan harga, damage, nama efek pasif, dan peluang efek pasif muncul (%).
+* **`weapon_list` dan `weapon_count`**: array global berisi semua senjata yang tersedia.
+* **`init_weapons()`**: mengisi `weapon_list` dengan senjata-senjata awal (contohnya senjata bertema karakter Blue Lock seperti *Isagi's Adaptability*).
+
+---
+
+### `dungeon.c` (SERVER)
+
+#### Struct Player
+
+```c
+typedef struct {
+    int gold;
+    int base_damage;
+    int kills;
+    int weapon_id;
+} Player;
+```
+
+* Menyimpan status player yang sedang aktif dalam koneksi: emas, damage dasar, jumlah kill, dan senjata yang dipakai.
+
+#### Fungsi `handle_client()`
+
+* Fungsi utama yang menangani seluruh siklus permainan per client (perintah, shop, battle, dll).
+* Perintah yang didukung:
+
+  * `"SHOW_STATS"` – Menampilkan statistik player saat ini.
+  * `"SHOW_SHOP"` – Menampilkan daftar senjata.
+  * `"BUY_WEAPON <id>"` – Membeli dan meng-equip senjata berdasarkan ID.
+  * `"VIEW_INVENTORY"` – Menampilkan senjata yang sedang digunakan.
+  * `"START_BATTLE"` – Memulai pertarungan dengan musuh acak.
+
+#### Logika Battle
+
+```c
+if (w->passive_chance > 0 && (rand() % 100 < w->passive_chance)) {
+    // Efek pasif diaktifkan
+}
+```
+
+* Passive senjata memiliki efek unik seperti tambahan damage, heal, atau debuff musuh.
+* HP player dan musuh dikelola dalam satu loop, menunggu input `"attack"` atau `"run"` dari client.
+
+---
+
+### `player.c` (CLIENT)
+
+#### Fungsi `send_command()`
+
+* Mengirim perintah string ke server dan menerima respon balik.
+
+```c
+write(sock, command, strlen(command));
+read(sock, buffer, sizeof(buffer));
+```
+
+#### Fungsi `print_menu()`
+
+* Menampilkan tampilan utama dengan pilihan aksi seperti lihat stats, masuk ke shop, battle, dsb.
+
+#### Loop Utama
+
+* Meminta input user berupa angka untuk memilih aksi.
+* Jika masuk ke battle, client akan masuk ke loop `fgets()` untuk menerima perintah `"attack"` atau `"run"` dan mencetak hasil dari server.
+
+---
+
+## 💡 Catatan Teknis
+
+* Komunikasi client-server menggunakan `socket TCP`.
+* Server bersifat blocking dan satu client ditangani satu per satu.
+* Warna terminal menggunakan ANSI escape code (misal: `\033[1;34m` untuk biru tebal).
+
+# REVISI (Tampilan Baru)
+## Main Menu
+![image](https://github.com/user-attachments/assets/32c1355d-089a-4484-b955-c122d75db99f)
+## Player Stats
+![image](https://github.com/user-attachments/assets/3d80fedb-56bc-46be-b718-d8d71f72e14f)
+## Shop
+![image](https://github.com/user-attachments/assets/1608b8ca-f0d2-4102-9f66-feabe83c0c1c)
+## Inventory
+![image](https://github.com/user-attachments/assets/badc361a-2833-4e58-bae0-24f0f54f65b2)
+## Battle
+![image](https://github.com/user-attachments/assets/e0ce79bc-743f-450e-9d33-ebb562e96d33)
+
+
