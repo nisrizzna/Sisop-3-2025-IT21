@@ -181,7 +181,7 @@ Contoh :
 [Server][2025-05-03 04:34:45]: [UPLOAD] [20250503_043410.jpeg]
 ```
 
-# Soal_2\
+# Soal_2
 
 # Deskripsi Program:
 Program ini merupakan sistem simulasi pengiriman barang yang terdiri dari dua jenis layanan yaitu Express dan Reguler. Program menggunakan multithreading untuk memproses pengiriman Express secara otomatis melalui 3 agen ekspedisi (AGENT A, AGENT B, dan AGENT C) yang berjalan secara paralel. Untuk pengiriman Reguler, pengguna dapat mengirim paket secara manual melalui parameter command line.
@@ -209,6 +209,10 @@ Cek Status Paket:
 ```./dispatcher -status [Name]```
 Menampilkan Daftar Semua Order:
 ```./dispatcher -list```
+
+# Output
+![image](https://github.com/user-attachments/assets/331f765d-4604-431f-8a51-5359e6bcbd81)
+![image](https://github.com/user-attachments/assets/50d39e1c-c6b3-4d95-ada9-2981caac4202)
 
 # Kesimpulan:
 Program Delivery Management System berhasil menerapkan konsep multithreading untuk memproses pengiriman secara paralel dan pengiriman manual berbasis command line. Fitur logging memastikan seluruh aktivitas tercatat dengan detail waktu, agen, jenis pengiriman, nama, dan alamat.
@@ -393,6 +397,8 @@ dungeon->atk = rand() % 51 + 100;
 dungeon->hp = rand() % 51 + 50;
 Nama dungeon diambil dari array string dungeon_names.
 ```
-
+# Output
+![image](https://github.com/user-attachments/assets/d1a28418-7e5c-4709-abec-c20c2d4ac958)
+![image](https://github.com/user-attachments/assets/bc3b54ca-3ddc-4a27-9901-adf1857973fa)
 
 
