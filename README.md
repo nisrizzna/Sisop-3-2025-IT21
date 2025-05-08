@@ -32,7 +32,7 @@ Soal meminta implementasi sistem client-server dengan konsep RPC menggunakan UNI
 ```
 ---
 
-### 🔹 (a) Setup dan 
+### (a) Setup dan 
 Setelah mengunduh dan mengekstrak `secrets.zip`, file teks disimpan ke dalam `client/secrets/`.
 
 ```bash
@@ -41,7 +41,7 @@ unzip secrets.zip -d client/secrets/
 
 ---
 
-### 🔹 (b) Daemon Server dengan UNIX Socket
+### (b) Daemon Server dengan UNIX Socket
 Server dibuat menjadi daemon agar berjalan di background. Menggunakan UNIX Domain Socket (AF_UNIX), komunikasi dilakukan lewat file socket di /tmp/image_socket.
 
 Kode daemonisasi:
@@ -73,7 +73,7 @@ listen(server_fd, 5);
 
 ---
 
-### 🔹 (c) Proses DECRYPT (Client → Server)
+### (c) Proses DECRYPT (Client → Server)
 Client membaca file teks dari client/secrets/, lalu mengirim data ke server dalam format:
 ```c
 [DECRYPT]<Text Data>
@@ -100,7 +100,7 @@ if (strncmp(buffer, "DECRYPT|", 8) == 0) {
 
 ---
 
-###🔹 (d) Menu Interaktif Client
+### (d) Menu Interaktif Client
 Client menampilkan menu yang memungkinkan user mengirim file berkali-kali atau mengunduh file dari server. Setiap loop membuat koneksi socket baru agar tidak terjadi reuse socket error.
 Menu tampil seperti:
 ```md
@@ -127,7 +127,7 @@ while (1) {
 
 ---
 
-### 🔹 (e) Proses DOWNLOAD (Client Request File)
+### (e) Proses DOWNLOAD (Client Request File)
 Client mengirim perintah:
 ```c
 [DOWNLOAD]<filename.jpeg>
@@ -153,7 +153,7 @@ while ((n = read(client_sock, buffer, BUFFER_SIZE)) > 0) {
 
 ---
 
-### 🔹 (f) Penanganan Error
+### (f) Penanganan Error
 Error seperti:
 - File tidak ditemukan
 - Socket gagal dibuat
@@ -167,7 +167,7 @@ write_log("Server", "ERROR", "File not found on DOWNLOAD");
 
 ---
 
-### 🔹 (g) Logging
+### (g) Logging
 Semua aktivitas client dan server dicatat ke file log server/server.log dalam format:
 ```md
 [Source][YYYY-MM-DD HH:MM:SS]: [ACTION] [Info]
